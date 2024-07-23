@@ -1,5 +1,10 @@
 # Instructions append
 
+## Input Validation
+
+You may assume that all inputs for this exercise are valid.
+That's why the return types are `Vec<u32>` and not `Option<Vec<u32>>`.
+
 ## Challenges
 
 - Can you implement this solution without using any `for` loops? (i.e. using [iterators][iterators] instead)

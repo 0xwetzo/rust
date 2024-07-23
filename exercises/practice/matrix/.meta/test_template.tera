@@ -5,10 +5,27 @@ use matrix::*;
 #[ignore]
 fn {{ test.description | snake_case }}() {
     let matrix = Matrix::new({{ test.input.string | json_encode() }});
-    {% if test.expected -%}
-    assert_eq!(matrix.{{ test.property }}({{ test.input.index }}), Some(vec!{{ test.expected | json_encode() }}));
-    {% else -%}
-    assert_eq!(matrix.{{ test.property }}({{ test.input.index }}), None);
-    {% endif -%}
+    assert_eq!(matrix.{{ test.property }}({{ test.input.index }}).to_vec(), vec!{{ test.expected | json_encode() }});
 }
-{% endfor -%}
+{% endfor %}
+
+/// A previous iteration of this exercise had `Option<Vec<u32>>` as the return
+/// type of `Matrix::row` and `Matrix::column`. This is the idiomatic way to
+/// handle invalid inputs. However, the exercise is specifically designed to
+/// assume valid inputs, which means there are no tests for invalid inputs.
+///
+/// This trait allowed the function signature in the exercise to be changed
+/// without breaking existing solutions.
+trait BackwardsCompatibility {
+    fn to_vec(self) -> Vec<u32>;
+}
+impl BackwardsCompatibility for Vec<u32> {
+    fn to_vec(self) -> Vec<u32> {
+        self
+    }
+}
+impl BackwardsCompatibility for Option<Vec<u32>> {
+    fn to_vec(self) -> Vec<u32> {
+        self.unwrap()
+    }
+}

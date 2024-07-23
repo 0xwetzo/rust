@@ -1,3 +1,8 @@
+/// Note that this example is using the "outdated" function signature
+/// with the Option in the return type. The tests were written to be
+/// backwards compatible, so this example doubles as a test of the backwards
+/// compatibility.
+
 pub struct Matrix {
     grid: Vec<Vec<u32>>,
 }
